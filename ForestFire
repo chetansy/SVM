@@ -1,0 +1,36 @@
+forestfires<- read.csv(file.choose())
+
+train<- forestfires[1:499,]
+test<- forestfires[500:517,]
+
+## Kernel = Rbfdot
+forest_rbf_svm<- ksvm(size_category~., data = train,kernel = "rbfdot")
+forest_rbf_pred<- predict(forest_rbf_svm,test)
+head(forest_rbf_pred)
+agreement<- forest_rbf_pred == test$size_category
+table(agreement)
+mean(forest_rbf_pred == test$size_category)   ## Accuracy = 83%
+
+## Kernel = tanhdot
+forest_tanh_svm<- ksvm(size_category~., data = train,kernel = "tanhdot")
+forest_tanh_pred<- predict(forest_tanh_svm,test)
+head(forest_tanh_pred)
+agreement_tanh<- forest_tanh_pred == test$size_category
+table(agreement_tanh)
+mean(forest_tanh_pred == test$size_category)  ## accuracy = 72 %
+
+## Kernel = vanilladotdot
+forest_spline_svm<- ksvm(size_category~., data = train,kernel ="splinedot")
+forest_spline_pred<- predict(forest_spline_svm,test)
+head(forest_spline_pred)
+agreement_spline<- forest_tanh_pred == test$size_category
+table(agreement_spline)
+mean(forest_tanh_pred == test$size_category)  ## accuracy = 72%
+
+##kernel = vanilladot
+forest_vanilladot_svm<- ksvm(size_category~., data = train,kernel ="vanilladot")
+forest_vanilladot_pred<- predict(forest_vanilladot_svm,test)
+head(forest_vanilladot_pred)
+agreement_vanilladot<- forest_tanh_pred == test$size_category
+table(agreement_vanilladot)
+mean(forest_tanh_pred == test$size_category)  ## accuracy = 72%
