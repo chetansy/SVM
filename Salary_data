@@ -1,0 +1,38 @@
+install.packages("kernlab")
+library(kernlab)
+salary_train<- read.csv(file.choose())
+salary_test<- read.csv(file.choose())
+
+## VanillaDot Method
+salary_classifier<- ksvm(Salary~.,data = salary_train,kernal = "vanilladot")
+salary_pred<- predict(salary_classifier,salary_test)
+head(salary_pred)
+table(salary_pred,salary_test$Salary)
+agreement<- salary_pred == salary_test$Salary
+table(agreement)
+mean(salary_pred == salary_test$Salary)   ####### accuracy = 85.45 %
+
+##  Model With Rbfdot Method
+salary_classifier_rbf<- ksvm(Salary~., data = salary_train,kernel = "rbfdot")
+salary_pred_2<- predict(salary_classifier_rbf,salary_test)
+head(salary_pred_2)
+table(salary_pred_2,salary_test$Salary)
+agreement_2<- salary_pred_2 == salary_test$Salary
+table(agreement_2)
+mean(salary_pred_2 == salary_test$Salary)  ######## accuracy = 85.43%
+
+##  Model With Polydot Method
+salary_classifier_poly<- ksvm(Salary~., data = salary_train,kernel = "polydot")
+salary_pred_poly<- predict(salary_classifier_poly,salary_test)
+head(salary_pred_poly)
+agreement_poly<- salary_pred_poly== salary_test$Salary
+table(agreement_poly)
+mean(salary_pred_poly == salary_test$Salary)  ######## accuracy = 84.62%
+
+## Model with Laplacedot Method
+salary_classifier_laplace<- ksvm(Salary~., data = salary_train,kernel = "laplacedot")
+salary_pred_laplace<- predict(salary_classifier_laplace,salary_test)
+agreement_laplace<- salary_pred_laplace == salary_test$Salary
+table(agreement_laplace)
+mean(salary_pred_laplace == salary_test$Salary) #########  accuracy = 85.26%
+
